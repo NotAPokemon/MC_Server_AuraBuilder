@@ -1,0 +1,718 @@
+command /condense [<text>] [<number>]:
+	trigger:
+		if arg-1 is "dmg":
+			set {damage.%player%} to 1 + {level.%player%}
+		else if arg-1 is "cp":
+			give player {cp.%player%} with nbt {nbt}
+		else if arg-1 is "lg":
+			give player {lg.%player%} with nbt {nbt}
+		else if arg-1 is "bt":
+			give player {bt.%player%} with nbt {nbt}
+		else if arg-1 is "hlm":
+			give player {hlm.%player%} with nbt {nbt}
+		else if arg-1 is "sword":
+			give player {sw.%player%} with nbt {nbt}
+
+
+
+command /un:
+	trigger:
+		set {usellnanlyes.%player%} to true
+
+
+
+command /nnnnnn:
+	trigger:
+		if player is op:
+			set {nbt} to nbt compound of player's tool
+
+
+command /lllnanlyes [<text>]:
+	trigger:
+		if {usellnanlyes.%player%} is true:
+			send "&5Teleporting..." to player
+			set {orgi.%player%} to player's location
+			set {in.%player%} to player's inventory
+			clear player's inventory
+			give player netherite sword
+			make console execute command "mvtp %player% Boss"
+			make console execute command "gamemode adventure %player%"
+			summon blaze at {spawnpoint}
+			set {bs.%last spawned blaze%} to "Fire"
+			set max health of last spawned blaze to max health of last spawned blaze * max health of last spawned blaze * ({fireauralevel.%player%} + 1)
+			set health of last spawned blaze to max health of last spawned blaze
+			set {usellnanlyes.%player%} to false
+			send title "&cTrial: &aKill the boss" to player for 3 seconds
+		else:
+			send "&cThis command has expired" to player
+
+
+
+
+
+
+command /bypass [<text>]:
+	trigger:
+		if arg-1 is "yes":
+			set {usellnanlyes.%player%} to true
+			make player execute command "lllnanlyes"
+
+
+
+		
+command /lllnanlno:
+	trigger:
+		set {usellnanlyes.%player%} to false
+		send "&cYou have cancled the trial"
+
+
+command /yes [<text>]:
+	trigger:
+		if arg-1 is "rightclickwithfiresoul":
+			if {aura.%player%} is not "Fire Aura":
+				remove red dye named "&cFire soul" from player's inventory
+				send "&cYou have consumed the soul" to player
+				set {aura.%player%} to "Fire Aura"
+				if {fireauralevel.%player%} is set:
+					set {level.%player%} to {fireauralevel.%player%}
+					make player execute command "condense dmg"
+					send title "" with subtitle "&cFire Aura &7unlocked" to player for 5 seconds
+				else:
+					set {fireauralevel.%player%} to 0
+					set {level.%player%} to {fireauralevel.%player%}
+					set {fireauranextlvl.%player%} to 10
+					make player execute command "condense dmg"
+					send title "&eNew Aura unlocked" with subtitle "&cFire Aura &7unlocked" to player for 5 seconds
+			else:
+				send "&cThis command has expired" to player
+		else if arg-1 is "rightclickwithdarksoul":
+			if {aura.%player%} is not "Dark Aura":
+				remove red dye named "&8Dark soul" from player's inventory
+				send "&cYou have consumed the soul" to player
+				set {aura.%player%} to "Dark Aura"
+				if {darkauralevel.%player%} is set:
+					set {level.%player%} to {darkauralevel.%player%}
+					make player execute command "condense dmg"
+					send subtitle "&8Dark Aura &7unlocked" to player for 5 seconds
+				else:
+					set {darkauralevel.%player%} to 0
+					set {level.%player%} to {darkauralevel.%player%}
+					make player execute command "condense dmg"
+					set {darkauranextlvl.%player%} to 10
+					send title "&eNew Aura unlocked" with subtitle "&8Dark Aura &7unlocked" to player for 5 seconds
+			else:
+				send "&cThis command has expired" to player
+		else if arg-1 is "rightclickwithgravsoul":
+			if {aura.%player%} is not "Grav Aura":
+				remove purple dye named "&5Grav soul" from player's inventory
+				send "&cYou have consumed the soul" to player
+				set {aura.%player%} to "Grav Aura"
+				if {gravauralevel.%player%} is set:
+					set {level.%player%} to {gravauralevel.%player%}
+					make player execute command "condense dmg"
+					send title "" with subtitle "&5Gravity Aura &7unlocked" to player for 5 seconds
+				else:
+					set {gravauralevel.%player%} to 0
+					set {level.%player%} to {gravauralevel.%player%}
+					make player execute command "condense dmg"
+					set {gravauranextlvl.%player%} to 10
+					send title "&eNew Aura unlocked" with subtitle "&5Gravity Aura &7unlocked" to player for 5 seconds
+			else:
+				send "&cThis command has expired" to player
+		else if arg-1 is "rightclickwithlightsoul":
+			if {aura.%player%} is not "Light Aura":
+				remove yellow dye named "&eLight soul" from player's inventory
+				send "&cYou have consumed the soul" to player
+				set {aura.%player%} to "Light Aura"
+				if {lightauralevel.%player%} is set:
+					set {level.%player%} to {lightauralevel.%player%}
+					make player execute command "condense dmg"
+					send title "" with subtitle "&eLight Aura &7unlocked" to player for 5 seconds
+				else:
+					set {lightauralevel.%player%} to 0
+					set {level.%player%} to {lightauralevel.%player%}
+					make player execute command "condense dmg"
+					set {lightauranextlvl.%player%} to 10
+					send title "&eNew Aura unlocked" with subtitle "&eLight Aura &7unlocked" to player for 5 seconds
+			else:
+				send "&cThis command has expired" to player
+		else if arg-1 is "rightclickwithgodsoul":
+			if {aura.%player%} is not "God":
+				remove Amethyst Cluster named "&cGod? &6God? &eGod!" from player's inventory
+				send "&cYou have consumed the soul" to player
+				set {aura.%player%} to "God"
+				if {godauralevel.%player%} is set:
+					set {level.%player%} to {godauralevel.%player%}
+					make player execute command "condense dmg"
+					send title "" with subtitle "&0God Aura &7unlocked" to player for 5 seconds
+				else:
+					set {godauralevel.%player%} to 0
+					set {level.%player%} to {godauralevel.%player%}
+					make player execute command "condense dmg"
+					set {godauranextlvl.%player%} to 10
+					send title "&eNew Aura unlocked" with subtitle "&0God Aura &7unlocked" to player for 5 seconds
+			else:
+				send "&cThis command has expired" to player
+		else if arg-1 is "rightclickwithwatersoul":
+			if {aura.%player%} is not "Water Aura":
+				remove blue dye named "&9Water soul" from player's inventory
+				send "&cYou have consumed the soul" to player
+				set {aura.%player%} to "Water Aura"
+				if {waterauralevel.%player%} is set:
+					set {level.%player%} to {waterauralevel.%player%}
+					make player execute command "condense dmg"
+					send title "" with subtitle "&9God Aura &7unlocked" to player for 5 seconds
+				else:
+					set {waterauralevel.%player%} to 0
+					set {level.%player%} to {waterauralevel.%player%}
+					make player execute command "condense dmg"
+					set {waterauranextlvl.%player%} to 10
+					send title "&eNew Aura unlocked" with subtitle "&9Water Aura &7unlocked" to player for 5 seconds
+			else:
+				send "&cThis command has expired" to player
+
+
+
+			
+command /varset [<text>] [<text>] [<text>]:
+	trigger:
+		if arg-3 is "bare":
+			set {%arg-2%} to arg-1
+		else if arg-3 is set:
+			set {%arg-2%.%arg-3%} to arg-1
+		else if arg-1 is not set:
+			send "&cImproper ussage" to player
+		else if arg-2 is not set:
+			send "&cImproper ussage" to player
+		else if arg-1 is "deletemyvar":
+			delete {%arg-2%.%player%}
+		else if arg-1 is "mytomyhelditem":
+			set {%arg-2%.%player%} to player's tool
+		else if arg-1 is "readthebarevar":
+			send "%{%arg-2%}%"
+		else:
+			set {%arg-2%.%player%} to arg-1
+
+
+command /aura:
+	trigger:
+		if {aura.%player%} is set:
+			if {auracooldown.%player%} is not set:
+				set {auracooldown.%player%} to true
+				send "&cAura activated" to player
+				set {ac.%player%} to true
+				wait 60 seconds
+				set {ac.%player%} to false
+				send "&cAura Deactivated" to player
+				if {aura.%player%} is "Light Aura":
+					set player's flight mode to false
+				wait 1 minutes
+				delete {auracooldown.%player%}
+			else:
+				send "&cYour aura is on cooldown"
+		else:
+			send "&cYou have not unlocked this yet"
+
+
+command /heal [<number>]:
+	trigger:
+		if player is op:
+			heal player by arg-1
+
+
+every 5 ticks:
+	loop all players:
+		if {ac.%loop-player%} is true:
+			if {aura.%loop-player%} is "Fire Aura":
+				light all entities in radius {level.%loop-player%} + 5 around loop-player where [input is not loop-player] on fire for 6 ticks
+				make console execute command "execute as %loop-player% at %loop-player% run particle minecraft:lava ~ ~ ~ %{level.%loop-player%} + 5% %{level.%loop-player%} + 5% %{level.%loop-player%} + 5% 0 100"
+			else if {aura.%loop-player%} is "Dark Aura":
+				apply potion effect of weakness of tier 3 to all entities in radius {level.%loop-player%} + 5 around loop-player where [input is not loop-player]
+				apply potion effect of darkness of tier {level.%loop-player%} to all entities in radius {level.%loop-player%} + 5 around loop-player where [input is not loop-player]
+				apply potion effect of slowness of tier {level.%loop-player%} to all entities in radius {level.%loop-player%} + 5 around loop-player where [input is not loop-player]
+				apply potion effect of wither of tier {level.%loop-player%} to all entities in radius {level.%loop-player%} + 5 around loop-player where [input is not loop-player]
+				make console execute command "execute as %loop-player% at %loop-player% run particle minecraft:sonic_boom ~ ~ ~ %{level.%loop-player%} + 5% %{level.%loop-player%} + 5% %{level.%loop-player%} + 5% 0 100"
+			else if {aura.%loop-player%} is "Grav Aura":
+				teleport all entities in radius {level.%loop-player%} + 5 around loop-player where [input is not loop-player] ({level.%loop-player%} + 5)/3 blocks infront of loop-player
+				make console execute command "execute as %loop-player% at %loop-player% run particle minecraft:ash ~ ~ ~ %{level.%loop-player%} + 5% %{level.%loop-player%} + 5% %{level.%loop-player%} + 5% 0 1000"
+			else if {aura.%loop-player%} is "Light Aura":
+				set loop-player's Flight mode to true
+				make console execute command "execute as %loop-player% at %loop-player% run particle minecraft:end_rod ~ ~ ~ %{level.%loop-player%} + 5% %{level.%loop-player%} + 5% %{level.%loop-player%} + 5% 0 100"
+			else if {aura.%loop-player%} is "Water Aura":
+				loop all blocks in radius 3 around loop-player:
+					if loop-block is bedrock:
+						set loop-block to loop-block
+					else if loop-block is command block:
+						set loop-block to loop-block
+					else if loop-block is repeating command block:
+						set loop-block to loop-block
+					else if loop-block is barrier:
+						set loop-block to loop-block
+					else:
+						if loop-block is a ore:
+							chance of (({level.%loop-player%} + 5)/7.5)%:
+								give loop-block to loop-player
+						set loop-block to water
+				loop all blocks in radius 4 around loop-player:
+					if loop-block is bedrock:
+						set loop-block to loop-block
+					else if loop-block is command block:
+						set loop-block to loop-block
+					else if loop-block is repeating command block:
+						set loop-block to loop-block
+					else if loop-block is barrier:
+						set loop-block to loop-block
+					else if loop-block is water:
+						set loop-block to loop-block
+					else:
+						if loop-block is a ore:
+							chance of (({level.%loop-player%} + 5)/7.5)%:
+								give loop-block to loop-player
+						set loop-block to structure void
+				make console execute command "execute as %loop-player% at %loop-player% run particle minecraft:ash ~ ~ ~ %{level.%loop-player%} + 5% %{level.%loop-player%} + 5% %{level.%loop-player%} + 5% 0 1000"
+			make loop-player damage all entities in radius {level.%loop-player%} + 5 around loop-player where [input is not loop-player] by {damage.%loop-player%}
+		if {aura.%loop-player%} is "God":
+			if {level.%loop-player%} > 0:
+				light all entities in radius {level.%loop-player%} + 5 around loop-player where [input is not loop-player] on fire for 6 ticks
+				apply potion effect of weakness of tier {level.%loop-player%} to all entities in radius {level.%loop-player%} + 5 around loop-player where [input is not loop-player]
+				apply potion effect of darkness of tier {level.%loop-player%} to all entities in radius {level.%loop-player%} + 5 around loop-player where [input is not loop-player]
+				apply potion effect of slowness of tier {level.%loop-player%} to all entities in radius {level.%loop-player%} + 5 around loop-player where [input is not loop-player]
+				apply potion effect of wither of tier {level.%loop-player%} to all entities in radius {level.%loop-player%} + 5 around loop-player where [input is not loop-player]
+				make loop-player damage all entities in radius {level.%loop-player%} + 5 around loop-player where [input is not loop-player] by {damage.%loop-player%}
+			make console execute command "execute as %loop-player% at %loop-player% run particle minecraft:end_rod ~ ~ ~ %{level.%loop-player%} + 5% %{level.%loop-player%} + 5% %{level.%loop-player%} + 5% 0 100"
+			set loop-player's Flight mode to true
+		if {aura.%loop-player%} is "Water Aura":
+			apply potion effect of water breathing of tier 1 to loop-player
+			make console execute command "effect give %loop-player% minecraft:dolphins_grace 11 255 true"
+			make console execute command "effect give %loop-player% minecraft:night_vision 11 1 true"
+		
+			
+on block damage:
+	if event-block is structure void:
+		if player's gamemode is not creative:
+			cancel event
+
+on break:
+	if {void.%event-block's location%} is set:
+		set event-block to structure void
+
+on right click:
+	if event-block is structure void:
+		if player's tool is a block:
+			if player's tool is not air, or sand, or gravel:
+				set {void.%event-block's location%} to true
+				set event-block to player's tool
+				set {_x} to event-block
+				remove {_x} from player's inventory
+				set {noplace.%player%} to true
+			else:
+				cancel event
+			
+on place:
+	if {noplace.%player%} is true:
+		cancel event
+		set {noplace.%player%} to false
+				
+
+
+on damage:
+	if {aura.%victim%} is "God":
+		if attacker is set:
+			set {dmge.%victim%} to damage
+			cancel event
+			set {level.%victim%} to {level.%victim%} + 1
+			damage victim by {dmge.%victim%} * (1/({level.%victim%}*{level.%victim%}))
+			set {level.%victim%} to {level.%victim%} -1
+		else if damage type is drowning:
+			set {dmge.%victim%} to damage
+			cancel event
+			set {level.%victim%} to {level.%victim%} + 1
+			damage victim by {dmge.%victim%} * (1/({level.%victim%}*{level.%victim%}))
+			set {level.%victim%} to {level.%victim%} -1
+
+
+			
+
+
+command /no [<text>]:
+	trigger:
+		if arg-1 is "rightclickwithsoul":
+			send "&cYou have not consumed the soul"
+on rightclick:
+	if name of player's tool is "&cFire soul":
+		send "&8this soul contains an unknown power do you wish to consume it? <command:/yes rightclickwithfiresoul>&a[yes]<reset> <command:/no rightclickwithsoul>&c[no]<reset> " to player
+	else if name of player's tool is "&8Dark soul":
+		send "&8this soul contains an unknown power do you wish to consume it? <command:/yes rightclickwithdarksoul>&a[yes]<reset> <command:/no rightclickwithsoul>&c[no]<reset> " to player
+	else if name of player's tool is "&5Grav soul":
+		send "&8this soul contains an unknown power do you wish to consume it? <command:/yes rightclickwithgravsoul>&a[yes]<reset> <command:/no rightclickwithsoul>&c[no]<reset> " to player
+	else if name of player's tool is "&eLight soul":
+		send "&8this soul contains an unknown power do you wish to consume it? <command:/yes rightclickwithlightsoul>&a[yes]<reset> <command:/no rightclickwithsoul>&c[no]<reset> " to player
+	else if name of player's tool is "&cGod? &6God? &eGod!":
+		send "&8this soul contains an unknown power do you wish to consume it? <command:/yes rightclickwithgodsoul>&a[yes]<reset> <command:/no rightclickwithsoul>&c[no]<reset> " to player
+	else if name of player's tool is "&9Water soul":
+		send "&8this soul contains an unknown power do you wish to consume it? <command:/yes rightclickwithwatersoul>&a[yes]<reset> <command:/no rightclickwithsoul>&c[no]<reset> " to player
+
+
+on death:
+	if victim is a magma cube:
+		chance of 90%:
+			if {aura.%attacker%} is not "Fire Aura":
+				clear the drops
+				give red dye named "&cFire soul" with lore "&7Useless at the moment but seems important" to attacker
+				send title "&cYou have discovered a soul???!!!!" with subtitle ""  to attacker for 2 seconds
+	else if victim is a evoker:
+		chance of 10%:
+			if {aura.%attacker%} is not "Dark Aura":
+				clear the drops
+				give gray dye named "&8Dark soul" with lore "&7Useless at the moment but seems important" to attacker
+				send title "&cYou have discovered a soul???!!!!" with subtitle ""  to attacker for 2 seconds
+	else if victim is a ender dragon:
+		chance of 100%:
+			if {aura.%attacker%} is not "Grav Aura":
+				clear the drops
+				give purple dye named "&5Grav soul" with lore "&7Useless at the moment but seems important" to attacker
+				send title "&cYou have discovered a soul???!!!!" with subtitle ""  to attacker for 2 seconds
+	else if victim is a allay:
+		chance of 30%:
+			if {aura.%attacker%} is not "Light Aura":
+				clear the drops
+				give yellow dye named "&eLight soul" with lore "&7Useless at the moment but seems important" to attacker
+				send title "&cYou have discovered a soul???!!!!" with subtitle ""  to attacker for 2 seconds
+
+	else if victim is a guardian:
+		chance of 5%:
+			if {aura.%attacker%} is not "Water Aura":
+				clear the drops
+				give blue dye named "&9Water soul" with lore "&7Useless at the moment but seems important" to attacker
+				send title "&cYou have discovered a soul???!!!!" with subtitle ""  to attacker for 2 seconds
+
+command /dupe:
+	trigger:
+		if player is op:
+			give player player's tool
+
+
+command /place:
+	trigger:
+		if {place} is true:
+			set {place} to false
+		else:
+			set {place} to true
+on place:
+	if {place} is true:
+		set {spawnpoint} to event-block's location
+		send "succses" to player
+command /resetlevel [<text>]:
+	trigger:
+		if arg-1 is "Fire":
+			set {fireauranextlvl.%player%} to 10
+			set {fireauralevel.%player%} to 0
+			send "Your Fire aura has been reset"
+		else if arg-1 is "Dark":
+			set {darkauranextlvl.%player%} to 10
+			set {darkauralevel.%player%} to 0
+			send "Your Dark aura has been reset"
+		else if arg-1 is "Grav":
+			set {gravauranextlvl.%player%} to 10
+			set {gravauralevel.%player%} to 0
+			send "Your Gravity aura has been reset"
+		else if arg-1 is "Light":
+			set {lightauranextlvl.%player%} to 10
+			set {lightauralevel.%player%} to 0
+			send "Your Light aura has been reset"
+		else if arg-1 is "God":
+			set {godauranextlvl.%player%} to 10
+			set {godauralevel.%player%} to 0
+			send "Your God aura has been reset"
+		else if arg-1 is "Water":
+			set {waterauranextlvl.%player%} to 10
+			set {waterauralevel.%player%} to 0
+			send "Your Water aura has been reset"
+		make player execute command "condense dmg"
+
+
+
+every 1 tick:
+	loop all players:
+		if {aura.%loop-player%} is "Fire Aura":
+			send action bar "                &e Level %{fireauralevel.%loop-player%}% %{lvlcolor.%loop-player%}%  &7---------- &c%{fireauranextlvl.%loop-player%}% kills till next level                %{killedmob.%loop-player%}%" to loop-player
+		else if {aura.%loop-player%} is "Dark Aura":
+			send action bar "                &e Level %{darkauralevel.%loop-player%}% %{lvlcolor.%loop-player%}% &7---------- &c%{darkauranextlvl.%loop-player%}% kills till next level                %{killedmob.%loop-player%}%" to loop-player
+		else if {aura.%loop-player%} is "Grav Aura":
+			send action bar "                &e Level %{gravauralevel.%loop-player%}% %{lvlcolor.%loop-player%}% &7---------- &c%{gravauranextlvl.%loop-player%}% kills till next level                %{killedmob.%loop-player%}%" to loop-player
+		else if {aura.%loop-player%} is "Light Aura":
+			send action bar "                &e Level %{lightauralevel.%loop-player%}% %{lvlcolor.%loop-player%}% &7---------- &c%{lightauranextlvl.%loop-player%}% kills till next level                %{killedmob.%loop-player%}%" to loop-player
+		else if {aura.%loop-player%} is "God":
+			send action bar "                &e Level %{godauralevel.%loop-player%}% %{lvlcolor.%loop-player%}% &7---------- &c%{godauranextlvl.%loop-player%}% kills till next level                %{killedmob.%loop-player%}%" to loop-player
+		else if {aura.%loop-player%} is "Water Aura":
+			send action bar "                &e Level %{waterauralevel.%loop-player%}% %{lvlcolor.%loop-player%}% &7---------- &c%{waterauranextlvl.%loop-player%}% kills till next level                %{killedmob.%loop-player%}%" to loop-player
+
+command /conceal [<text>] [<number>]:
+	trigger:
+		if arg-1 is "do":
+			if {level.%player%} >= 2:
+				if arg-2 <= {level.%player%}:
+					set {level.%player%} to arg-2
+					make player execute command "condense dmg"
+					set {lvlcolor.%player%} to "&a(%{level.%player%}%)"
+					send "&aYour power has been limited to level %arg-2%"
+				else:
+					send "&cYou cannot set your level to higher than its current level"
+			else:
+				send "&cYour Level is too low to use this"
+		else if arg-1 is "undo":
+			if {aura.%player%} is "Fire Aura":
+				set {level.%player%} to {fireauralevel.%player%}
+			else if {aura.%player%} is "Dark Aura":
+				set {level.%player%} to {darkauralevel.%player%}
+			else if {aura.%player%} is "Grav Aura":
+				set {level.%player%} to {gravauralevel.%player%}
+			else if {aura.%player%} is "Light Aura":
+				set {level.%player%} to {lightauralevel.%player%}
+			else if {aura.%player%} is "God":
+				set {level.%player%} to {godauralevel.%player%}
+			else if {aura.%player%} is "Water Aura":
+				set {level.%player%} to {waterauralevel.%player%}
+		
+			set {lvlcolor.%player%} to ""
+			send "&aYour limiter has been removed"
+			make player execute command "condense dmg"
+		else:
+			send "&cInvalid usage. Usage: /conceal <do/undo> <number> "
+
+
+
+on teleport:
+	make player execute command "gamerule sendCommandFeedback false"
+
+
+command /kill [<offline player>]:
+	trigger:
+		if player is op:
+			kill arg-1
+
+command /setlvl [<offline player>] [<number>]:
+	trigger:
+		if player is op:
+			if {aura.%arg-1%} is "Fire Aura":
+				set {fireauralevel.%arg-1%} to arg-2
+				set {fireauranextlvl.%arg-1%} to {fireauralevel.%arg-1%} * {fireauralevel.%arg-1%} * 5
+				set {level.%arg-1%} to {fireauralevel.%arg-1%}
+				make arg-1 execute command "condense dmg"
+				send "&aYour level has been set to %{fireauralevel.%arg-1%}%!" to arg-1
+
+			else if {aura.%arg-1%} is "Dark Aura":
+
+				set {darkauralevel.%arg-1%} to arg-2
+				set {darkauranextlvl.%arg-1%} to {darkauralevel.%arg-1%} * {darkauralevel.%arg-1%} * 5
+				set {level.%arg-1%} to {darkauralevel.%arg-1%}
+				make arg-1 execute command "condense dmg"
+				send "&aYour level has been set to %{darkauralevel.%arg-1%}%!" to arg-1
+			else if {aura.%arg-1%} is "Grav Aura":
+				set {gravauralevel.%arg-1%} to arg-2
+				set {gravauranextlvl.%arg-1%} to {gravauralevel.%arg-1%} * {gravauralevel.%arg-1%} * 5
+				set {level.%arg-1%} to {gravauralevel.%arg-1%}
+				make arg-1 execute command "condense dmg"
+				send "&aYour level has been set to %{gravauralevel.%arg-1%}%!" to arg-1
+			else if {aura.%arg-1%} is "Light Aura":
+				set {lightauralevel.%arg-1%} to arg-2
+				set {lightauranextlvl.%arg-1%} to {lightauralevel.%arg-1%} * {lightauralevel.%arg-1%} * 5
+				set {level.%arg-1%} to {lightauralevel.%arg-1%}
+				make arg-1 execute command "condense dmg"
+				send "&aYour level has been set to %{lightauralevel.%arg-1%}%!" to arg-1
+			else if {aura.%arg-1%} is "God":
+				set {godauralevel.%arg-1%} to arg-2
+				set {godauranextlvl.%arg-1%} to {godauralevel.%arg-1%} * {godauralevel.%arg-1%} * 5
+				set {level.%arg-1%} to {godauralevel.%arg-1%}
+				make arg-1 execute command "condense dmg"
+				send "&aYour level has been set to %{godauralevel.%arg-1%}%!" to arg-1
+
+			else if {aura.%arg-1%} is "Water Aura":
+				set {waterauralevel.%arg-1%} to arg-2
+				set {waterauranextlvl.%arg-1%} to {waterauralevel.%arg-1%} * {waterauralevel.%arg-1%} * 5
+				set {level.%arg-1%} to {waterauralevel.%arg-1%}
+				make arg-1 execute command "condense dmg"
+				send "&aYour level has been set to %{waterauralevel.%arg-1%}%!" to arg-1
+
+
+
+
+on death:
+	if {bs.%victim%} is "Fire":
+		clear the drops
+		teleport attacker to {orgi.%attacker%}
+		clear attacker's inventory
+		give 1 red dye named "&cFire soul" with lore "&7Useless to most but seems important" to attacker
+		give attacker {in.%attacker%}
+		send title "&aTrial completed you hgave obtained a soul" to attacker
+		make console execute command "gamemode surivial %attacker%"		
+command /f [<text>] [<offline player>]:
+	trigger:
+		set {f.%player%.%arg-2%} to true
+		set {f.%arg-2%.%player%} to true
+command /fly [<offline player>]:
+	trigger:
+		if arg-1 is set:
+			if arg-1's flight mode is false:
+				set arg-1's flight mode to true
+			else:
+				set arg-1's flight mode to false
+command /uncooldown:
+	trigger:
+		make player execute command "varset deletemyvar auracooldown"
+on damage:
+	if {f.%attacker%.%victim%} is true:
+		cancel event
+
+on damage:
+	if {ac.%attacker%} is true:
+		if {aura.%attacker%} is "Grav Aura":
+			heal attacker by damage
+on death:
+	if {aura.%attacker%} is "Fire Aura":
+		set {fireauranextlvl.%attacker%} to {fireauranextlvl.%attacker%} - 1
+		if {fireauranextlvl.%attacker%} <= 0:
+			set {fireauralevel.%attacker%} to {fireauralevel.%attacker%} + 1
+			set {fireauranextlvl.%attacker%} to {fireauralevel.%attacker%} * {fireauralevel.%attacker%} * 5
+			set {level.%attacker%} to {fireauralevel.%attacker%}
+			make attacker execute command "condense dmg"
+			send "&aYou have leveled up to level %{fireauralevel.%attacker%}%!" to attacker
+
+	else if {aura.%attacker%} is "Dark Aura":
+		set {darkauranextlvl.%attacker%} to {darkauranextlvl.%attacker%} - 1
+		if {darkauranextlvl.%attacker%} <= 0:
+			set {darkauralevel.%attacker%} to {darkauralevel.%attacker%} + 1
+			set {darkauranextlvl.%attacker%} to {darkauralevel.%attacker%} * {darkauralevel.%attacker%} * 5
+			set {level.%attacker%} to {darkauralevel.%attacker%}
+			make attacker execute command "condense dmg"
+			send "&aYou have leveled up to level %{darkauralevel.%attacker%}%!" to attacker
+	else if {aura.%attacker%} is "Grav Aura":
+		set {gravauranextlvl.%attacker%} to {gravauranextlvl.%attacker%} - 1
+		if {gravauranextlvl.%attacker%} <= 0:
+			set {gravauralevel.%attacker%} to {gravauralevel.%attacker%} + 1
+			set {gravauranextlvl.%attacker%} to {gravauralevel.%attacker%} * {gravauralevel.%attacker%} * 5
+			set {level.%attacker%} to {gravauralevel.%attacker%}
+			make attacker execute command "condense dmg"
+			send "&aYou have leveled up to level %{gravauralevel.%attacker%}%!" to attacker
+	else if {aura.%attacker%} is "Light Aura":
+		set {lightauranextlvl.%attacker%} to {lightauranextlvl.%attacker%} - 1
+		if {lightauranextlvl.%attacker%} <= 0:
+			set {lightauralevel.%attacker%} to {lightauralevel.%attacker%} + 1
+			set {lightauranextlvl.%attacker%} to {lightauralevel.%attacker%} * {lightauralevel.%attacker%} * 5
+			set {level.%attacker%} to {lightauralevel.%attacker%}
+			make attacker execute command "condense dmg"
+			send "&aYou have leveled up to level %{lightauralevel.%attacker%}%!" to attacker
+	else if {aura.%attacker%} is "God":
+		set {godauranextlvl.%attacker%} to {godauranextlvl.%attacker%} - 1
+		if {godauranextlvl.%attacker%} <= 0:
+			set {godauralevel.%attacker%} to {godauralevel.%attacker%} + 1
+			set {godauranextlvl.%attacker%} to {godauralevel.%attacker%} * {godauralevel.%attacker%} * 5
+			set {level.%attacker%} to {godauralevel.%attacker%}
+			make attacker execute command "condense dmg"
+			send "&aYou have leveled up to level %{godauralevel.%attacker%}%!" to attacker
+
+	else if {aura.%attacker%} is "Water Aura":
+		set {waterauranextlvl.%attacker%} to {waterauranextlvl.%attacker%} - 1
+		if {waterauranextlvl.%attacker%} <= 0:
+			set {waterauralevel.%attacker%} to {waterauralevel.%attacker%} + 1
+			set {waterauranextlvl.%attacker%} to {waterauralevel.%attacker%} * {waterauralevel.%attacker%} * 5
+			set {level.%attacker%} to {waterauralevel.%attacker%}
+			make attacker execute command "condense dmg"
+			send "&aYou have leveled up to level %{waterauralevel.%attacker%}%!" to attacker
+
+	if {ac.%attacker%} is true:
+		set {killedmob.%attacker%} to "&a%victim%"
+		set {drops::*} to the drops
+		clear the drops
+		give {drops::*} to attacker
+		wait 1 seconds
+		set {killedmob.%attacker%} to ""
+	if {aura.%attacker%} is "God":
+		set {killedmob.%attacker%} to "&a%victim%"
+		set {drops::*} to the drops
+		clear the drops
+		give {drops::*} to attacker
+		wait 1 seconds
+		set {killedmob.%attacker%} to ""
+command /fix:
+	trigger:
+		set name of player's tool to "&cFire soul" 
+		set lore of player's tool to "fixed"					
+	
+		
+
+command /killzombieinworld:
+	trigger:
+		loop all mobs:
+			if loop-mob is a zombie:
+				if loop-mob is in world "lvl":
+					set {de.%loop-mob%} to true
+					kill loop-mob
+ 
+
+
+
+every 1 second:
+	loop all players:
+		if {ac.%loop-player%} is true:
+			chance of 1%:
+				make loop-player execute command "ftreju khfnxhjefuorc "
+
+command /ftreju [<text>] [<text>]:
+	trigger:
+		if arg-1 is "khfnxhjefuorc":
+			if arg-2 is "lerkt":
+				summon blaze at player's location
+				set {bss.%last spawned blaze%} to "Fire"
+				set max health of last spawned blaze to max health of last spawned blaze * max health of last spawned blaze * ({fireauralevel.%player%} + 1)
+				set health of last spawned blaze to max health of last spawned blaze
+				set {usellnanlyes.%player%} to false
+				send title "&cTrial: &aKill the boss" to player for 3 seconds
+				send "i lvoe fucking kids all doeuwihguywfdychdutgw7iutchvwryivwegvb cjkyh gb hvjbjyhdb" to player
+				add last spawned blaze to {bosses.%player%::*} 
+				set {spawnedboss.%player%} to true
+				
+on damage:
+	if {bss.%attacker%} is set:
+		damage victim by (damage*damage*damage)
+		set {jail.%victim%} to attacker
+
+
+on respawn:
+	if {jail.%player%} is set:
+		wait 5 seconds
+		apply potion of resistance of tier 255 to player
+		apply potion of slowness of tier 255 to player
+		apply potion of mining fatigue of tier 255 to player
+		apply potion of jump boost of tier 100 to player
+		wait 10 seconds
+		teleport player to {jail.%player%}
+		wait 30 minutes
+		kill {jail.%player%}
+
+
+
+on death:
+	if {de.%victim%} is true:
+		clear the drops
+		delete {de.%victim%}
+
+
+command /summonzombieinworld:
+	trigger:
+		summon a zombie at {loc}
+
+
+
+on damage:
+	if {aura.%victim%} is "Fire Aura":
+		apply potion of fire resistance of tier 1 to victim
+
+
+command /feed:
+	trigger:
+		set player's hunger to 100
+
+command /sudo [<offline player>] [<text>]:
+	trigger:
+		make arg-1 execute command "%arg-2%"

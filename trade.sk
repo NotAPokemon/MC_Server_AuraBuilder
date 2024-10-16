@@ -1,0 +1,222 @@
+command /trade <player>:
+    trigger:
+        if arg-1 is set:
+            if arg-1 is not player:
+                open chest with 4 rows named "%player%    &eTrading    &r%arg-1%" to player
+                open chest with 4 rows named "%arg-1%    &eTrading    &r%player%" to arg-1
+                set {_t} to player
+                loop 2 times:
+                    set slot 3 of {_t}'s current inventory to orange stained glass pane named "&eUnready" with lore "&7Click here if you are finish"
+                    set slot 5 of {_t}'s current inventory to orange stained glass pane named "&eUnready" with lore "&7He is not finished"
+                    set {_s} to 4
+                    loop 4 times:
+                        if {_s} is 4:
+                            set slot {_s} of {_t}'s current inventory to red stained glass pane named "&cCancel" with lore "&cIt will close the GUI"
+                        set slot {_s} of {_t}'s current inventory to gray stained glass pane named "&r"
+                        add 9 to {_s}
+                    set {_t} to arg-1
+                set {TradeM::%player%} to arg-1
+                set {TradeM::%arg-1%} to player
+                while name of player's current inventory contains "    &eTrading    ":
+                    if name of arg-1's current inventory contains "    &eTrading    ":
+                        set {_s} to 0
+                        loop 4 times:
+                            set slot 31 - {_s} of player's current inventory to gray stained glass pane named "&r"
+                            set slot 31 - {_s} of arg-1's current inventory to gray stained glass pane named "&r"
+                            add 9 to {_s}
+                        set {_t} to player
+                        set {_b} to arg-1
+                        loop 2 times:
+                            set {_s} to 0
+                            loop 30 times:
+                                set {Trade::%{_t}%::%{_s}%} to slot {_s} of {_t}'s current inventory
+                                add 1 to {_s}
+                                if {_s} is 3:
+                                    set {_s} to 9
+                                else if {_s} is 13:
+                                    set {_s} to 18
+                                else if {_s} is 22:
+                                    set {_s} to 27
+                                else if {_s} is 31:
+                                    stop loop
+                            set {_t} to arg-1
+                            set {_b} to player
+                        loop 2 times:
+                            set {_s} to 6
+                            set {_a} to 0
+                            loop 30 times:
+                                set slot {_s} of {_t}'s current inventory to {Trade::%{_b}%::%{_a}%}
+                                add 1 to {_s}
+                                add 1 to {_a}
+                                if {_s} is 9:
+                                    set {_s} to 14
+                                    set {_a} to 9
+                                else if {_s} is 18:
+                                    set {_s} to 23
+                                    set {_a} to 18
+                                else if {_s} is 27:
+                                    set {_s} to 32
+                                    set {_a} to 27
+                                else if {_s} is 36:
+                                    stop loop
+                            set {_t} to player
+                            set {_b} to arg-1
+                        wait 10 ticks
+                        if {TradeR::%player%} is set:
+                            if {TradeR::%arg-1%} is set:
+                                send "You both accept it. Please don't do anythings in 3 seconds!"
+                                send "You both accept it. Please don't do anythings in 3 seconds!" to arg-1
+                                send "You can cancelt it, just press Green glass on your side!"
+                                send "You can cancelt it, just press Green glass on your side!" to arg-1
+                                set slot 31 of player's current inventory to green stained glass pane named "&a3..."
+                                set slot 31 of arg-1's current inventory to green stained glass pane named "&a3..."
+                                wait a seconds
+                                {TradeR::%player%} is set
+                                {TradeR::%arg-1%} is set
+                                set slot 31 - 9 of player's current inventory to green stained glass pane named "&a2..."
+                                set slot 31 - 9 of arg-1's current inventory to green stained glass pane named "&a2..."
+                                wait a seconds
+                                {TradeR::%player%} is set
+                                {TradeR::%arg-1%} is set
+                                set slot 31 - 18 of player's current inventory to green stained glass pane named "&a1..."
+                                set slot 31 - 18 of arg-1's current inventory to green stained glass pane named "&a1..."
+                                wait a seconds
+                                {TradeR::%player%} is set
+                                {TradeR::%arg-1%} is set
+                                set slot 31 - 27 of player's current inventory to green stained glass pane named "&a0..."
+                                set slot 31 - 27 of arg-1's current inventory to green stained glass pane named "&a0..."
+                                wait a seconds
+                                {TradeR::%player%} is set
+                                {TradeR::%arg-1%} is set
+                                set {DEAL::%player%} to true
+                                set {DEAL::%arg-1%} to true
+                                close player's inventory
+                                close arg-1's inventory
+                                send "&aDEAL!"
+                                send "&aDEAL!" to arg-1
+                    else:
+                        close player's inventory
+                close arg-1's inventory
+
+on inventory close:
+    if name of player's current inventory contains "    &eTrading    ":
+        if {Deal::%player%} is set:
+            set {_s} to 6
+            loop 30 times:
+                give slot {_s} of player's current inventory to player
+                add 1 to {_s}
+                if {_s} is 9:
+                    set {_s} to 14
+                else if {_s} is 18:
+                    set {_s} to 23
+                else if {_s} is 27:
+                    set {_s} to 32
+                else if {_s} is 36:
+                    stop loop
+            delete {Deal::%player%}
+            delete {TradeM::%player%}
+            delete {TradeR::%player%}
+            delete {Trade::%player%::*}
+        else:
+            set {_s} to 0
+            loop 30 times:
+                give slot {_s} of player's current inventory to player
+                add 1 to {_s}
+                if {_s} is 3:
+                    set {_s} to 9
+                else if {_s} is 13:
+                    set {_s} to 18
+                else if {_s} is 22:
+                    set {_s} to 27
+                else if {_s} is 31:
+                    stop loop
+            delete {Deal::%player%}
+            delete {TradeM::%player%}
+            delete {TradeR::%player%}
+            delete {Trade::%player%::*}
+         
+on inventory click:
+    if name of player's current inventory contains "    &eTrading    ":
+        if {TradeR::%player%} is set:
+            if clicked slot is 3:
+                set slot 3 of player's current inventory to orange stained glass pane named "&eUnready" with lore "&7Click here if you are finish"
+                delete {TradeR::%player%}
+                set slot 5 of {TradeM::%player%}'s current inventory to orange stained glass pane named "&eUnready" with lore "&7He is not finished"
+                cancel event
+            else:
+                cancel event
+                send "You can't move anythings while you are ready"
+        else:
+            if inventory type is chest inventory:
+                if clicked slot is between 3 and 8:
+                    if slot 3 of clicked inventory is orange stained glass pane named "&eUnready",air, or green stained glass pane named "&aYoure are READY!":
+                        cancel event
+                    if clicked slot is 3:
+                        if clicked item is orange stained glass pane:
+                            set slot 3 of player's current inventory to green stained glass pane named "&aYoure are READY!" with lore "&7Click here agin, if you want edit!"
+                            set {TradeR::%player%} to true
+                            set slot 5 of {TradeM::%player%}'s current inventory to green stained glass pane named "&aHe is READY!" with lore "&7If youre too ready, click on Orange Glass to accept deal!"
+                        else:
+                            set slot 3 of player's current inventory to orange stained glass pane named "&eUnready" with lore "&7Click here if you are finish"
+                            delete {TradeR::%player%}
+                            set slot 5 of {TradeM::%player%}'s current inventory to orange stained glass pane named "&eUnready" with lore "&7He is not finished"
+                else if clicked slot is between 13 and 17:
+                    if slot 3 of clicked inventory is orange stained glass pane named "&eUnready" or green stained glass pane named "&aYoure are READY!":
+                        cancel event
+                else if clicked slot is between 22 and 26:
+                    if slot 3 of clicked inventory is orange stained glass pane named "&eUnready" or green stained glass pane named "&aYoure are READY!":
+                        cancel event
+                else if clicked slot is between 31 and 35:
+                    if slot 3 of clicked inventory is orange stained glass pane named "&eUnready" or green stained glass pane named "&aYoure are READY!":
+                        cancel event
+
+
+
+
+
+on death:
+    if victim is a player:
+        set {drops::%victim%::*} to the drops
+    
+command /back:
+    trigger:
+        if player is op:
+            loop {drops::%player%::*}:
+                give player loop-value
+            delete {drops::%player%::*}
+
+    
+
+command /send [<offline player>]:
+    trigger:
+        open chest with 6 rows named "&6Send" to player
+        set slot 0 of player's current inventory to barrier named "&cClose" with lore "%arg-1%"
+        set {p.%player%} to arg-1
+        
+
+on inventory click:
+    if clicked slot is barrier named "&cClose":
+        cancel event
+        set {items.%{p.%player%}%.%player%::*} to all items in player's current inventory
+        close player's inventory
+        send "&ayou have recived a package run /openstash %player% to view it" to {p.%player%}
+
+
+on inventory close:
+    if name of player's inventory is "&6Stash":
+        delete {items.%player%.%{po.%player%}%::*}
+command /openstash [<offline player>]:
+    trigger:
+        set {_chest} to chest with 6 rows named "&6Stash"
+        set {_items::*} to {items.%player%.%arg-1%::*}
+        set {po.%player%} to arg-1
+        set {_i} to 0
+        loop {_items::*}:
+            if loop-value is not a barrier:
+                add loop-value to {_chest}
+        open {_chest} to player
+
+
+
+
+
